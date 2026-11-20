@@ -1,0 +1,21 @@
+name: Codorna Card
+on:
+  schedule:
+    - cron: '23 4 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/codorna-card.yml
+permissions:
+  contents: write
+jobs:
+  codorna-card:
+    # O modelo em si não gera card: só as cópias, no perfil de cada pessoa.
+    if: github.repository != 'GabrielKoglin/codorna-card-perfil'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: GabrielKoglin/codorna-card@v1
+        with:
+          # Soma as contribuições privadas, se estiverem ligadas no perfil
+          # (Contribution settings → Private contributions). Desligadas, não muda nada.
+          private-contributions: true
